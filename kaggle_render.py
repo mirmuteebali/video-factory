@@ -27,7 +27,8 @@ if pending:
     pipe = StableDiffusionXLPipeline.from_pretrained(
         "stabilityai/stable-diffusion-xl-base-1.0",
         torch_dtype=torch.float16, variant="fp16", use_safetensors=True).to("cuda")
-    pipe.enable_vae_slicing()
+    try: pipe.vae.enable_slicing()
+    except Exception: pass
     for jp in pending:
         job = json.load(open(jp))
         jid = os.path.basename(jp)[:-5]
