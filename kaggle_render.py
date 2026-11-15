@@ -47,5 +47,5 @@ if pending:
             img.save(f, quality=95)
             print(jid, i, "ok")
         open(f"{out}/done", "w").write("ok")
-        sh(f'git -C {W} add renders/{jid} && git -C {W} commit -q -m "render {jid}" && git -C {W} push -q origin HEAD:main')
+        sh(f'git -C {W} add renders/{jid} && git -C {W} commit -q -m "render {jid}" && git -C {W} pull -q --rebase origin main && git -C {W} push -q origin HEAD:main')
 print("finished")
