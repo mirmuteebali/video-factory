@@ -23,12 +23,16 @@ pending = [j for j in sorted(glob.glob(f"{W}/jobs/*.json"))
 print("pending jobs:", [os.path.basename(p) for p in pending])
 
 if pending:
-    from diffusers import StableDiffusionXLPipeline
+    import gc
+    from diffusers import StableDiffusionXLPipeline, AutoencoderKL
+    gc.collect(); torch.cuda.empty_cache()
+    vae = AutoencoderKL.from_pretrained("madebyollin/sdxl-vae-fp16-fix", torch_dtype=torch.float16)
     pipe = StableDiffusionXLPipeline.from_pretrained(
-        "stabilityai/stable-diffusion-xl-base-1.0",
+        "stabilityai/stable-diffusion-xl-base-1.0", vae=vae,
         torch_dtype=torch.float16, variant="fp16", use_safetensors=True).to("cuda")
-    try: pipe.vae.enable_slicing()
-    except Exception: pass
+    for fn in ("enable_tiling", "enable_slicing"):
+        try: getattr(pipe.vae, fn)()
+        except Exception: pass
     for jp in pending:
         job = json.load(open(jp))
         jid = os.path.basename(jp)[:-5]
