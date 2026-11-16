@@ -51,9 +51,10 @@ if any(need.values()):
         tok = AutoTokenizer.from_pretrained(LM)
         lm = AutoModelForCausalLM.from_pretrained(LM, torch_dtype=torch.float16).to("cuda:0")
     def ask(msg):
-        ids = tok.apply_chat_template([{"role": "user", "content": msg}], add_generation_prompt=True, return_tensors="pt").to(lm.device)
-        out = lm.generate(ids, max_new_tokens=2200, do_sample=True, temperature=0.8, top_p=0.9)
-        return tok.decode(out[0][ids.shape[1]:], skip_special_tokens=True)
+        text = tok.apply_chat_template([{"role": "user", "content": msg}], add_generation_prompt=True, tokenize=False)
+        enc = tok(text, return_tensors="pt").to(lm.device)
+        out = lm.generate(**enc, max_new_tokens=2200, do_sample=True, temperature=0.8, top_p=0.9)
+        return tok.decode(out[0][enc["input_ids"].shape[1]:], skip_special_tokens=True)
     for ch, k in need.items():
         spec = open(f"{W}/channels/{ch}.md").read()
         used = [json.load(open(j)).get("topic", "") for j in jobs_of(ch)]
