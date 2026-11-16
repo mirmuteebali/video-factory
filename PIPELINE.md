@@ -9,7 +9,7 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 
 ## 2. Use a GPU-rendered job if one is ready
 - Ready job = jobs/<CH>-*.json where renders/<id>/done exists and used/<id> does NOT exist. Take the OLDEST.
-- If found: use its title, youtube_script, long_script; images are renders/<id>/NN.jpg in prompt order (first len(youtube_prompts) images = YouTube cut shots; the rest are extra shots for the long cut). These are SDXL 832x1472 — upscale with Real-ESRGAN x2 (spandrel, ai-forever/Real-ESRGAN RealESRGAN_x2.pth) then lanczos to 1440x2560 + light unsharp mask. Do NOT generate images locally. Then create used/<id> (one line: date) and push.
+- If found: use its title, youtube_script, long_script; images are renders/<id>/NN.jpg in prompt order (first len(youtube_prompts) images = YouTube cut shots; the rest are extra shots for the long cut). These are SDXL 896x1600 (best of 2 for YouTube shots) — upscale with Real-ESRGAN x2 (spandrel, ai-forever/Real-ESRGAN RealESRGAN_x2.pth) then lanczos to 1440x2560 + light unsharp mask. Do NOT generate images locally. Then create used/<id> (one line: date) and push.
 - Quickly re-verify the job's key facts with one web search before using it.
 
 ## 3. Fallback (no ready job)
@@ -17,9 +17,10 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 
 ## 4. Queue future jobs for the Kaggle GPU (always, after step 2/3)
 - Count this channel's jobs without used/<id>. While count < BUFFER (from channel spec), plan ONE new video and write jobs/<CH>-<YYYYMMDD-HHMM>-<n>.json:
-  {"channel","topic","title","youtube_script","long_script","youtube_prompts":[...],"long_extra_prompts":[...],"prompts":youtube_prompts+long_extra_prompts,"width":832,"height":1472,"steps":28,"negative":"blurry, lowres, jpeg artifacts, deformed, watermark, text, signature, logo, extra limbs"}
-- Topic must not appear in the channel's posts (list_channel_posts), in any jobs/ file, or in the paired channel named in the spec. Scripts follow the spec's viral rules and lengths. youtube_prompts: one rich SDXL prompt per shot (one shot per 2.5–3.5 s of the YouTube cut, typically 9–12); long_extra_prompts: 6–8 more shots. Write prompts in the channel's visual style, detailed (subject, setting, lighting, lens, mood), no text in images, no real people's faces, no logos or copyrighted characters.
+  {"channel","topic","title","youtube_script","long_script","youtube_prompts":[...],"long_extra_prompts":[...],"prompts":youtube_prompts+long_extra_prompts,"width":896,"height":1600,"steps":36,"negative":"blurry, lowres, jpeg artifacts, deformed, watermark, text, signature, logo, extra limbs"}
+- Topic must not appear in the channel's posts (list_channel_posts), in any jobs/ file, or in the paired channel named in the spec. Scripts follow the spec's viral rules and lengths. youtube_prompts: one rich SDXL prompt per shot (one shot per ~2 s of the YouTube cut, typically 12–16; for a 50–60 s cut 25–30); long_extra_prompts: 10–14 more shots. Width 896, height 1600, steps 36. The free GPU has spare hours, so more shots = better. Write prompts in the channel's visual style, detailed (subject, setting, lighting, lens, mood), no text in images, no real people's faces, no logos or copyrighted characters.
 - Commit + push. A free Kaggle GPU notebook renders queued jobs once a day.
+- Housekeeping: delete renders/<id>/ folders (keep the done-less ones) for jobs marked used more than 3 days ago, so the repo stays small.
 
 ## 5. Build and publish
 - Voice: Kokoro (pip install --break-system-packages torch diffusers transformers accelerate safetensors spandrel soundfile ; pip install --break-system-packages --only-binary=:all: spacy ; pip install --break-system-packages --no-deps kokoro misaki ; pip install --break-system-packages loguru num2words espeakng_loader phonemizer-fork addict regex), KPipeline(lang_code='a'), voice from spec, sentence by sentence, trim silence, word timings by character length; respell hard names; fallback piper en_US-ryan-high.
