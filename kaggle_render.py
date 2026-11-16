@@ -18,6 +18,70 @@ else:
     sh(f"git -C {W} pull -q")
 sh(f'git -C {W} config user.email "render@kaggle" && git -C {W} config user.name "kaggle-render"')
 
+# ---------- housekeeping: drop jobs/renders older than 6 days ----------
+import datetime, re, shutil
+today = datetime.datetime.utcnow().date()
+for jp in glob.glob(f"{W}/jobs/*.json"):
+    m = re.search(r"-(\d{8})-", os.path.basename(jp))
+    if m and (today - datetime.datetime.strptime(m.group(1), "%Y%m%d").date()).days > 6:
+        jid = os.path.basename(jp)[:-5]
+        os.remove(jp); shutil.rmtree(f"{W}/renders/{jid}", ignore_errors=True)
+
+# ---------- plan new jobs with a small free LLM ----------
+PER_DAY = {"cosmic": 2, "levelup": 2, "infinite": 1, "coldcase": 1}
+def jobs_of(ch): return sorted(glob.glob(f"{W}/jobs/{ch}-*.json"))
+need = {}
+for ch, n in PER_DAY.items():
+    recent = [j for j in jobs_of(ch) if (today - datetime.datetime.strptime(
+        re.search(r"-(\d{8})-", j).group(1), "%Y%m%d").date()).days <= 1]
+    need[ch] = max(0, n + 1 - len(recent))
+print("plan need:", need)
+if any(need.values()):
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+    LM = "Qwen/Qwen2.5-7B-Instruct"
+    try:
+        from transformers import BitsAndBytesConfig
+        sh("pip -q install -U bitsandbytes")
+        tok = AutoTokenizer.from_pretrained(LM)
+        lm = AutoModelForCausalLM.from_pretrained(LM, device_map="cuda:0",
+             quantization_config=BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16))
+    except Exception as e:
+        print("7B failed, using 3B:", e)
+        LM = "Qwen/Qwen2.5-3B-Instruct"
+        tok = AutoTokenizer.from_pretrained(LM)
+        lm = AutoModelForCausalLM.from_pretrained(LM, torch_dtype=torch.float16).to("cuda:0")
+    def ask(msg):
+        ids = tok.apply_chat_template([{"role": "user", "content": msg}], add_generation_prompt=True, return_tensors="pt").to(lm.device)
+        out = lm.generate(ids, max_new_tokens=2200, do_sample=True, temperature=0.8, top_p=0.9)
+        return tok.decode(out[0][ids.shape[1]:], skip_special_tokens=True)
+    for ch, k in need.items():
+        spec = open(f"{W}/channels/{ch}.md").read()
+        used = [json.load(open(j)).get("topic", "") for j in jobs_of(ch)]
+        for n in range(k):
+            for attempt in range(3):
+                txt = ask(f"""You plan short vertical videos for this YouTube channel:\n{spec}\n
+Pick ONE new topic: a REAL, well-documented case/fact (no invented stories), fitting the niche above, different from these already planned: {used}.
+Then write 26 image prompts, one per shot, in story order (hook shot first), each a rich standalone Stable Diffusion XL prompt in the channel's visual style
+(subject, setting, lighting, camera, mood), no text in the image, no real people's faces, no logos.
+Reply EXACTLY in this format and nothing else:
+TOPIC: <topic in one line>
+SHOT 1: <prompt>
+SHOT 2: <prompt>
+... up to SHOT 26""")
+                t = re.search(r"TOPIC:\s*(.+)", txt)
+                shots = [m.group(1).strip() for m in re.finditer(r"SHOT\s*\d+\s*:\s*(.+)", txt)]
+                if t and len(shots) >= 20: break
+            if not t or len(shots) < 20:
+                print("plan failed for", ch); continue
+            topic = t.group(1).strip(); used.append(topic)
+            jid = f"{ch}-{datetime.datetime.utcnow():%Y%m%d-%H%M}-{n}"
+            json.dump({"channel": ch, "topic": topic, "youtube_prompts": shots[:16], "long_extra_prompts": shots[16:26],
+                       "prompts": shots[:26], "width": 896, "height": 1600, "steps": 36},
+                      open(f"{W}/jobs/{jid}.json", "w"), indent=1)
+            print("planned", jid, topic)
+    del lm; import gc; gc.collect(); torch.cuda.empty_cache()
+sh(f'git -C {W} add -A && (git -C {W} commit -q -m "plan + cleanup" || true) && git -C {W} pull -q --rebase origin main && git -C {W} push -q origin HEAD:main')
+
 pending = [j for j in sorted(glob.glob(f"{W}/jobs/*.json"))
            if not os.path.exists(f"{W}/renders/{os.path.basename(j)[:-5]}/done")]
 print("pending jobs:", [os.path.basename(p) for p in pending])
