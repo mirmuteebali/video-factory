@@ -18,6 +18,10 @@ else:
     sh(f"git -C {W} pull -q")
 sh(f'git -C {W} config user.email "render@kaggle" && git -C {W} config user.name "kaggle-render"')
 
+os.makedirs(f"{W}/jobs", exist_ok=True); os.makedirs(f"{W}/renders", exist_ok=True)
+def push(msg):
+    subprocess.run(f'git -C {W} add -A && (git -C {W} commit -q -m "{msg}" || true) && git -C {W} pull -q --rebase origin main && git -C {W} push -q origin HEAD:main', shell=True)
+
 # ---------- housekeeping: drop jobs/renders older than 6 days ----------
 import datetime, re, shutil
 today = datetime.datetime.utcnow().date()
@@ -79,7 +83,7 @@ SHOT 2: <prompt>
             json.dump({"channel": ch, "topic": topic, "youtube_prompts": shots[:16], "long_extra_prompts": shots[16:26],
                        "prompts": shots[:26], "width": 896, "height": 1600, "steps": 36},
                       open(f"{W}/jobs/{jid}.json", "w"), indent=1)
-            print("planned", jid, topic)
+            print("planned", jid, topic); push(f"plan {jid}")
     del lm; import gc; gc.collect(); torch.cuda.empty_cache()
 sh(f'git -C {W} add -A && (git -C {W} commit -q -m "plan + cleanup" || true) && git -C {W} pull -q --rebase origin main && git -C {W} push -q origin HEAD:main')
 
