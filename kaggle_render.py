@@ -32,7 +32,7 @@ for jp in glob.glob(f"{W}/jobs/*.json"):
         os.remove(jp); shutil.rmtree(f"{W}/renders/{jid}", ignore_errors=True)
 
 # ---------- plan new jobs with a small free LLM ----------
-PER_DAY = {"cosmic": 2, "levelup": 2, "infinite": 1, "coldcase": 1}
+PER_DAY = {"cosmic": 2, "levelup": 2, "infinite": 1, "coldcase": 2}
 def jobs_of(ch): return sorted(glob.glob(f"{W}/jobs/{ch}-*.json"))
 need = {}
 for ch, n in PER_DAY.items():
