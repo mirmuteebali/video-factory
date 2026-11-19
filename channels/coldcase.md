@@ -6,3 +6,4 @@ Captions: clean bold sans 120 px+ at 1440 wide, 1–3 words, key words RED #E326
 A/B test: odd day YouTube cut 50–60 s "[A]", even day 20–30 s "[B]". Long cut TikTok + Facebook 61–70 s.
 Description includes "Visuals are AI-generated artistic recreations, not real photos." TikTok #truecrime #coldcase #unsolved #fyp.
 Viral rules as in cosmic.md; one line of own analysis ("Here's what bothers me.").
+YouTube: always pass options.youtube.madeForKids false.

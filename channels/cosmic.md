@@ -6,3 +6,4 @@ Captions: clean WHITE semi-bold sans ~85 px at 1440 wide, soft shadow, centred m
 Cuts: YouTube 20–30 s (max 32 s, ~55–75 words); long cut for TikTok + Facebook 61–70 s (~165–190 words), same hook and loop ending.
 Viral rules: hook line at second 0 with matching visual; curiosity loop opened in 3 s, closed in last 3 s; escalate to the biggest scale; new shot every 2.5–3.5 s; loop ending; title <50 chars ending #shorts, no repeated pattern from last 5; score script 1–10 on hook/curiosity/pacing, rewrite until all 8+; one line of own reaction.
 Hashtags: YouTube 3–4; TikTok #space #universe #astronomy #fyp; Facebook #space #universe #science.
+YouTube: always pass options.youtube.madeForKids false.

@@ -7,3 +7,4 @@ Captions: big rounded bold, key words GOLD #FFC83D, fade-in.
 A/B test: today's date in America/Chicago — odd day YouTube cut 50–60 s, last description line "[A]"; even day 20–30 s, "[B]". Long cut TikTok + Facebook 61–70 s.
 Description must include "Animated with AI-generated artwork; original animation made for this channel." Hashtags incl. #animation; TikTok #animation #mystery #unexplained #fyp.
 Viral rules as in cosmic.md (hook at 0 s, curiosity loop, escalate, loop ending, title <50 chars #shorts, score until 8+, one line of own analysis).
+YouTube: always pass options.youtube.madeForKids false.

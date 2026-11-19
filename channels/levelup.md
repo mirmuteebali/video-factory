@@ -6,3 +6,4 @@ Captions: clean WHITE semi-bold sans ~85 px at 1440 wide, soft shadow, centred, 
 Cuts: YouTube 20–30 s (max 32 s); long cut TikTok + Facebook 61–70 s, same hook and loop ending, 3–4 extra steps.
 Viral rules: most surprising line at second 0; use "you"; curiosity loop; cleverest trick last; new shot every 2.5–3.5 s; loop ending; title <50 chars ending #shorts; score script until all 8+; one line of own insight.
 Hashtags: YouTube 3–4; TikTok #howitworks #engineering #learnontiktok #fyp; Facebook #howitworks #engineering #science.
+YouTube: always pass options.youtube.madeForKids false.
