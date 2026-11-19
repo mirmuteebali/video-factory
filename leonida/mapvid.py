@@ -106,7 +106,7 @@ CF, LF, HF = F(110), F(64), F(78)
 starts = []; acc = 0
 for i, (m, v0, v1, ov, labs) in enumerate(SEG):
     dur = durs[i]; n = int(round(dur * FPS)); starts.append(acc); acc += dur
-    words = lines[i]["cap"].split(); tot = sum(len(w) + 1 for w in words); wt = []; t0 = 0
+    words = lines[i].get("cap", lines[i]["say"]).split(); tot = sum(len(w) + 1 for w in words); wt = []; t0 = 0
     for w in words: dd = (len(w) + 1) / tot * (dur - 0.12); wt.append((t0, t0 + dd, w)); t0 += dd
     for f in range(n):
         t = f / FPS; k = ease(min(1, t / max(0.5, dur * 0.85)))
