@@ -21,4 +21,4 @@ python3 leonida/voice.py /home/claude/run && python3 leonida/<mapvid|cards>.py /
 Kokoro install: see PIPELINE.md §5 (needs espeakng_loader; voice.py sets it up). Look at ONE contact sheet of the chk*/check*.png frames before publishing.
 
 ## Publish
-media_presign (aiGenerated false) → curl PUT → media_complete → publish wait:true, options.youtube {title (<=70 chars, ends "#GTA6 #Shorts"), privacyStatus "public", categoryId "20", tags, defaultLanguage "en"}. Description: 1–2 lines + "Follow Leonida Clips for more GTA 6 Shorts." + #GTA6 #GTAVI #GTA6Shorts #Leonida #ViceCity #Gaming #Shorts.
+media_presign (aiGenerated false) → curl PUT → media_complete → publish wait:true, options.youtube {title (<=70 chars, ends "#GTA6 #Shorts"), privacyStatus "public", categoryId "20", tags, defaultLanguage "en", madeForKids false}. Description: 1–2 lines + "Follow Leonida Clips for more GTA 6 Shorts." + #GTA6 #GTAVI #GTA6Shorts #Leonida #ViceCity #Gaming #Shorts.
