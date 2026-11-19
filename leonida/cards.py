@@ -1,6 +1,9 @@
 import json, math, subprocess, numpy as np, soundfile as sf
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageChops
-W, H, FPS = 1080, 1920, 30
+import os
+LAND = os.environ.get('LAND') == '1'
+W, H, FPS = (1920, 1080, 30) if LAND else (1080, 1920, 30)
+TX = 540 if LAND else W / 2
 B = "/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf"
 F = lambda s: ImageFont.truetype(B, s)
 import sys, os; os.chdir(sys.argv[1])
@@ -65,17 +68,35 @@ def art(kind):
         d.ellipse([300, 470, 400, 570], outline=(255, 255, 255, 255), width=10); d.ellipse([600, 520, 700, 620], outline=(255, 255, 255, 255), width=10)
         for dx, dy, c in [(720, 440, (255, 70, 200)), (780, 490, (120, 255, 120)), (660, 490, (0, 230, 255))]: d.ellipse([dx - 25, dy - 25, dx + 25, dy + 25], fill=c + (255,))
         d.text((500, 840), "PS5  |  XBOX SERIES X|S", font=F(58), fill=(255, 255, 255, 255), anchor="mm")
+    elif kind == "price":
+        for x, y, t, col in [(130, 260, "$79.99", (0, 230, 255)), (470, 520, "$99.99", (255, 70, 200))]:
+            d.rounded_rectangle([x, y, x + 400, y + 220], 40, fill=(25, 12, 55, 255), outline=col + (255,), width=10)
+            d.ellipse([x + 30, y + 90, x + 70, y + 130], fill=col + (255,)); d.text((x + 230, y + 110), t, font=F(90), fill=(255, 255, 255, 255), anchor="mm")
+    elif kind == "box":
+        d.rounded_rectangle([280, 150, 720, 780], 30, fill=(30, 14, 60, 255), outline=(255, 70, 200, 255), width=10)
+        d.rounded_rectangle([340, 470, 660, 600], 20, fill=(255, 255, 255, 255)); d.text((500, 535), "XXXX-XXXX", font=F(48), fill=(30, 14, 60, 255), anchor="mm")
+        d.text((500, 330), "CODE", font=F(110), fill=(0, 230, 255, 255), anchor="mm"); d.text((500, 880), "NO DISC INSIDE", font=F(64), fill=(255, 255, 255, 255), anchor="mm")
+    elif kind == "storage":
+        d.rounded_rectangle([120, 380, 880, 560], 40, outline=(255, 255, 255, 255), width=10)
+        d.rounded_rectangle([140, 400, 700, 540], 30, fill=(255, 70, 200, 255)); d.text((500, 280), "212 GB", font=F(130), fill=(0, 230, 255, 255), anchor="mm")
+        d.text((500, 680), "STORAGE NEEDED (PS5)", font=F(54), fill=(255, 255, 255, 255), anchor="mm")
+    elif kind == "check":
+        for i, t in enumerate(["STANDARD IS FINE", "CLEAR 212 GB", "PS5 / XBOX SERIES"]):
+            y = 220 + i * 210
+            d.rounded_rectangle([110, y, 890, y + 160], 30, fill=(20, 10, 45, 230), outline=(120, 255, 140, 255), width=6)
+            d.line([(160, y + 85), (200, y + 120), (260, y + 45)], fill=(120, 255, 140, 255), width=14)
+            d.text((560, y + 80), t, font=F(58), fill=(255, 255, 255, 255), anchor="mm")
     return im
 
 def base(i, l):
     img = grad(*PAL[i % len(PAL)])
     def t(d):
-        y = 230
+        y = 300 if LAND else 230
         if l["num"]:
-            d.ellipse([W / 2 - 80, 120, W / 2 + 80, 280], outline=(0, 240, 255), width=10)
-            d.text((W / 2, 200), l["num"], font=F(110), fill=(0, 240, 255), anchor="mm"); y = 330
-        d.text((W / 2, y + 60), l["title"], font=F(130 if len(l["title"]) < 11 else 112), fill=(255, 70, 200), anchor="mm")
-        d.text((W / 2, y + 185), l["sub"], font=F(62), fill=(255, 255, 255), anchor="mm")
+            d.ellipse([TX - 80, 120, TX + 80, 280], outline=(0, 240, 255), width=10)
+            d.text((TX, 200), l["num"], font=F(110), fill=(0, 240, 255), anchor="mm"); y = 360 if LAND else 330
+        d.text((TX, y + 60), l["title"], font=F((112 if len(l["title"]) < 11 else 92) if LAND else (130 if len(l["title"]) < 11 else 112)), fill=(255, 70, 200), anchor="mm")
+        d.text((TX, y + 185), l["sub"], font=F(62), fill=(255, 255, 255), anchor="mm")
     return neon(img, t)
 
 def caption_chunks(text, dur):
@@ -86,17 +107,17 @@ def caption_chunks(text, dur):
 
 ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
                        "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "silent.mp4"], stdin=subprocess.PIPE)
-CF = F(84)
+CF = F(72 if LAND else 84)
 for i, l in enumerate(lines):
     bg = base(i, l); a = art(l["art"]); dur = durs[i]; n = int(round(dur * FPS))
     caps = caption_chunks(l.get("cap", l["say"]), dur)
     for f in range(n):
-        t = f / FPS; k = 1 + 0.10 * (t / dur); s = int(860 * k)
+        t = f / FPS; k = 1 + 0.10 * (t / dur); s = int((760 if LAND else 860) * k)
         if f < 5: s = int(s * (0.85 + 0.03 * f))  # punch-in
-        fr = bg.copy(); ai = a.resize((s, s), Image.BILINEAR); fr.paste(ai, ((W - s) // 2, 1010 - s // 2), ai)
+        fr = bg.copy(); ai = a.resize((s, s), Image.BILINEAR); fr.paste(ai, ((1400 - s // 2, 500 - s // 2) if LAND else ((W - s) // 2, 1010 - s // 2)), ai)
         d = ImageDraw.Draw(fr)
         txt = next((c[2] for c in caps if c[0] <= t < c[1]), caps[-1][2]).upper()
-        d.text((W / 2, 1560), txt, font=CF, fill=(255, 230, 0), anchor="mm", stroke_width=9, stroke_fill=(0, 0, 0))
+        d.text((W / 2, 975 if LAND else 1560), txt, font=CF, fill=(255, 230, 0), anchor="mm", stroke_width=9, stroke_fill=(0, 0, 0))
         if f == int(n / 2) and i in (0, len(lines) // 2): fr.save(f"check{i}.png")
         ff.stdin.write(fr.tobytes())
 ff.stdin.close(); ff.wait()

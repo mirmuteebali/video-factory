@@ -1,6 +1,8 @@
 import json, math, random, subprocess, numpy as np, soundfile as sf
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
-W, H, FPS = 1080, 1920, 30
+import os
+LAND = os.environ.get('LAND') == '1'
+W, H, FPS = (1920, 1080, 30) if LAND else (1080, 1920, 30)
 CW, CH = 1800, 3200
 FB = "/usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf"
 F = lambda s: ImageFont.truetype(FB, s)
@@ -73,6 +75,12 @@ cm = cm.filter(ImageFilter.GaussianBlur(40))
 Gred = Image.blend(G, Image.new("RGB", (CW, CH), (200, 20, 40)), 0.45)
 Ggreen = Image.composite(Image.blend(G, Image.new("RGB", (CW, CH), (40, 230, 90)), 0.5), Gred, cm)
 
+PW, OX = CW, 0
+if LAND:
+    PW = int(CH * 16 / 9) + 2; OX = (PW - CW) // 2
+    def _pad(im, col):
+        p = Image.new("RGB", (PW, CH), col); p.paste(im, (OX, 0)); return p
+    L = _pad(L, WATER); G = _pad(G, (60, 66, 72)); Gred = _pad(Gred, (110, 46, 58)); Ggreen = _pad(Ggreen, (110, 46, 58))
 FULL = (900, 1600, 1.0)
 VIEWS = {"vice": (1220, 2150, 2.6), "ambrosia": (930, 1250, 2.6), "gellhorn": (520, 900, 2.6), "kalaga": (880, 560, 2.4),
          "south": (700, 2550, 2.0), "city5": (880, 2150, 2.2)}
@@ -91,8 +99,12 @@ for l in lines:
 ease = lambda t: t * t * (3 - 2 * t)
 
 def frame(src, view):
-    x, y, z = view; vw, vh = CW / z, CH / z
-    x = min(max(x, vw / 2), CW - vw / 2); y = min(max(y, vh / 2), CH - vh / 2)
+    x, y, z = view
+    if LAND:
+        z = z if z < 1.2 else z * 1.5; vh = CH / z; vw = vh * 16 / 9; x += OX; cw = PW
+    else:
+        vw, vh = CW / z, CH / z; cw = CW
+    x = min(max(x, vw / 2), cw - vw / 2); y = min(max(y, vh / 2), CH - vh / 2)
     box = (x - vw / 2, y - vh / 2, x + vw / 2, y + vh / 2)
     return src.resize((W, H), Image.BILINEAR, box=box), box
 
@@ -118,16 +130,16 @@ for i, (m, v0, v1, ov, labs) in enumerate(SEG):
         sx = W / (box[2] - box[0])
         for key in labs:
             txt, col = LABELS[key]; px, py = LPOS[key]
-            X, Y = (px - box[0]) * sx, (py - box[1]) * sx
+            X, Y = (px + OX - box[0]) * sx, (py - box[1]) * sx
             if -200 < X < W + 200 and 0 < Y < H:
                 d.text((X, Y), txt, font=LF, fill=col, anchor="mm", stroke_width=6, stroke_fill=(0, 0, 0))
         if i == 0:
-            d.text((W / 2, 300), lines[0]["hook1"], font=HF, fill="white", anchor="mm", stroke_width=8, stroke_fill="black")
-            d.text((W / 2, 400), lines[0]["hook2"], font=F(110), fill=(255, 40, 40), anchor="mm", stroke_width=9, stroke_fill="black")
+            d.text((W / 2, 140 if LAND else 300), lines[0]["hook1"], font=HF, fill="white", anchor="mm", stroke_width=8, stroke_fill="black")
+            d.text((W / 2, 240 if LAND else 400), lines[0]["hook2"], font=F(110), fill=(255, 40, 40), anchor="mm", stroke_width=9, stroke_fill="black")
         w = next((x for x in wt if x[0] <= t < x[1]), wt[-1])
         pop = 1.0 + 0.18 * max(0, 1 - (t - w[0]) / 0.12)
         col = KEYW.get(w[2].lower().strip(".,!?"), (255, 255, 255))
-        d.text((W / 2, 1000), w[2].rstrip(".,"), font=F(int(110 * pop)), fill=col, anchor="mm", stroke_width=10, stroke_fill=(0, 0, 0))
+        d.text((W / 2, 900 if LAND else 1000), w[2].rstrip(".,"), font=F(int(110 * pop)), fill=col, anchor="mm", stroke_width=10, stroke_fill=(0, 0, 0))
         if f == n // 2 and i in (1, len(lines) // 2, len(lines) - 2): fr.save(f"chk{i}.png")
         ff.stdin.write(fr.tobytes())
 ff.stdin.close(); ff.wait()
