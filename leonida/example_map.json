@@ -1,0 +1,97 @@
+[
+ {
+  "say": "Stop calling the G T A six map empty.",
+  "cap": "Stop calling the GTA 6 map empty.",
+  "view": "full",
+  "hook1": "STOP CALLING IT",
+  "hook2": "EMPTY!",
+  "hl": {
+   "empty": "red"
+  }
+ },
+ {
+  "say": "G T A five's map was big, but most of it was barren hills.",
+  "cap": "GTA 5's map was big, but most of it was barren hills.",
+  "map": "G",
+  "ov": "red",
+  "hl": {
+   "barren": "red"
+  }
+ },
+ {
+  "say": "Only Los Santos really felt alive.",
+  "cap": "Only Los Santos really felt alive.",
+  "map": "G",
+  "view": "city5",
+  "ov": "green",
+  "hl": {
+   "alive": "green"
+  }
+ },
+ {
+  "say": "Now look at Leonida. Rockstar says it is about twice the size of G T A five.",
+  "cap": "Now look at Leonida. Rockstar says it is about twice the size of GTA 5.",
+  "view": "full",
+  "hl": {
+   "twice": "yellow"
+  }
+ },
+ {
+  "say": "Vice City.",
+  "cap": "Vice City.",
+  "view": "vice",
+  "labels": [
+   "vice"
+  ],
+  "hl": {
+   "vice": "pink",
+   "city": "pink"
+  }
+ },
+ {
+  "say": "Ambrosia.",
+  "cap": "Ambrosia.",
+  "view": "ambrosia",
+  "labels": [
+   "ambrosia"
+  ]
+ },
+ {
+  "say": "Port Gellhorn.",
+  "cap": "Port Gellhorn.",
+  "view": "gellhorn",
+  "labels": [
+   "gellhorn"
+  ]
+ },
+ {
+  "say": "Mount Kalaga.",
+  "cap": "Mount Kalaga.",
+  "view": "kalaga",
+  "labels": [
+   "kalaga"
+  ]
+ },
+ {
+  "say": "Grassrivers, and the Keys.",
+  "cap": "Grassrivers, and the Keys.",
+  "view": "south",
+  "labels": [
+   "grass",
+   "keys"
+  ]
+ },
+ {
+  "say": "And way more buildings you can actually walk into.",
+  "cap": "And way more buildings you can actually walk into.",
+  "view": "full",
+  "labels": [
+   "all"
+  ]
+ },
+ {
+  "say": "Follow Leonida Clips for more.",
+  "cap": "Follow Leonida Clips for more.",
+  "view": "full"
+ }
+]
