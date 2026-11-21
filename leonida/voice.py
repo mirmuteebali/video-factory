@@ -8,7 +8,7 @@ lines = json.load(open(sys.argv[1] + "/script.json"))
 p = KPipeline(lang_code='a')
 out = []
 for i, l in enumerate(lines):
-    a = np.concatenate([np.asarray(r.audio) for r in p(l["say"], voice="am_michael", speed=1.12)])
+    a = np.concatenate([np.asarray(r.audio) for r in p(l["say"], voice="af_heart", speed=1.1)])
     nz = np.where(np.abs(a) > 0.01)[0]
     a = a[max(0, nz[0] - 1200): nz[-1] + 2400]
     a = np.concatenate([a, np.zeros(int(24000 * 0.12))])
