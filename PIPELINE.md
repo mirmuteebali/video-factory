@@ -16,8 +16,8 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 
 ## 5. Build and publish
 - Voice: Kokoro (pip install --break-system-packages torch diffusers transformers accelerate safetensors spandrel soundfile ; pip install --break-system-packages --only-binary=:all: spacy ; pip install --break-system-packages --no-deps kokoro misaki ; pip install --break-system-packages loguru num2words espeakng_loader phonemizer-fork addict regex), KPipeline(lang_code='a'), voice from spec, sentence by sentence, trim silence, word timings by character length; respell hard names; fallback piper en_US-ryan-high.
-- MOTION: image always fills the frame; ONE slow smooth eased push-in or pan per shot, max 8% scale change; clean cuts or 0.25 s crossfades; NO zoom punches, bounces or shakes.
-- SOUND: NO sound effects at all. Clean voice + one soft continuous music bed made in code (chord pad, low-pass, ~20 dB under voice, 1 s fades); normalize ~-14 LUFS, no clipping, no sudden peaks.
+- MOTION: image always fills the frame (never shows edges or black), smooth eased movement only (no jitter, no shaking), but ALIVE: every shot moves clearly — push-in, pull-out, pan or 2-layer parallax, 10–15% scale change, alternate direction shot to shot; hard cuts on the beat.
+- SOUND: clean voice on top + ONE energetic rhythmic music bed made in code for the whole video (driving beat 100–120 BPM with kick + soft hats + bass + chords, matching the channel mood), ~14 dB under the voice, steady volume, 0.5 s fade-in, no random effects, no clipping, normalize ~-14 LUFS.
 - Render 1440x2560, 30 fps, libx264 crf 17 preset veryfast, yuv420p, aac 192k, +faststart; draw all text at 1440x2560.
 - Upload each cut: media_presign (aiGenerated true) → curl PUT → media_complete. Publish order: YouTube, TikTok, Facebook (as the spec lists), wait: true; confirm YouTube "published", retry once. TikTok/Facebook failures never block YouTube. TikTok: get_publish_options first, privacyLevel PUBLIC_TO_EVERYONE if offered, isAigc true. Facebook: options.facebook {contentType "reel", title}; on identity/reconsent errors call get_help, skip and mention it.
 - On errors call Uplika get_help. Finish with a short Roman Urdu SendUserMessage: title, lengths, links, and whether GPU images were used.
@@ -26,3 +26,12 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 - If the run prompt says SHORTS_PER_RUN=N, make N different Shorts in this ONE run (different jobs/topics), reusing installs, models and voice pipeline. Do steps 2–5 for each.
 - Publish Short 1 immediately (wait: true). For Short k (k ≥ 2) publish the same way but with scheduledAt = now + (k−1)×5 hours (ISO 8601 with offset), so the day gets ~3 evenly spaced Shorts on every target (YouTube, TikTok, Facebook). Never put two of today's Shorts on the same topic.
 - If time or a step fails, publish what is ready; never block the first Short. One combined Roman Urdu message at the end.
+
+## 7. ENERGY RULES (override anything slower in the channel spec) — the user says Shorts feel lifeless and stopped going viral
+- 0.0–1.5 s: the single most shocking image + 3–6 word HOOK text huge on screen + a first spoken line that is a bold claim or impossible-sounding fact ("This cup changes colour… and it's 1,700 years old."). No intros, no "did you know", no channel name.
+- Pace: new shot every 1.2–2 s (reuse a shot with a different crop/move if needed). Every 4–6 s a new twist or bigger number ("But that's not the crazy part…").
+- Voice: Kokoro speed 1.12–1.18, short punchy sentences (max ~12 words), questions and "you"; sound excited/intrigued, never flat. Cold Case stays serious but tense and fast, not slow.
+- Captions: word-by-word pop (1–3 words at a time, quick scale-in 90%→100% in 0.12 s), big (≥110 px at 1440 wide), key word in the channel colour, placed lower-middle; must stay in sync with the voice.
+- Length: YouTube cut 22–35 s (ignore the old A/B 50–60 s option); TikTok/Facebook cut 45–65 s with the same hook. End on a cliffhanger/question that loops into the first line.
+- Topic choice: prefer the most jaw-dropping, emotional or "wait, what?" angle; use the one search_youtube_videos call to see which similar Shorts got the most views and steal the ANGLE (never the content).
+- Before uploading, watch ONE tiled sheet of frames from the first 3 seconds: if the hook frame is not instantly striking, fix it.
