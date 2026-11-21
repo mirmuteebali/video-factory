@@ -21,3 +21,8 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 - Render 1440x2560, 30 fps, libx264 crf 17 preset veryfast, yuv420p, aac 192k, +faststart; draw all text at 1440x2560.
 - Upload each cut: media_presign (aiGenerated true) → curl PUT → media_complete. Publish order: YouTube, TikTok, Facebook (as the spec lists), wait: true; confirm YouTube "published", retry once. TikTok/Facebook failures never block YouTube. TikTok: get_publish_options first, privacyLevel PUBLIC_TO_EVERYONE if offered, isAigc true. Facebook: options.facebook {contentType "reel", title}; on identity/reconsent errors call get_help, skip and mention it.
 - On errors call Uplika get_help. Finish with a short Roman Urdu SendUserMessage: title, lengths, links, and whether GPU images were used.
+
+## 6. Batch mode (3 Shorts per run)
+- If the run prompt says SHORTS_PER_RUN=N, make N different Shorts in this ONE run (different jobs/topics), reusing installs, models and voice pipeline. Do steps 2–5 for each.
+- Publish Short 1 immediately (wait: true). For Short k (k ≥ 2) publish the same way but with scheduledAt = now + (k−1)×5 hours (ISO 8601 with offset), so the day gets ~3 evenly spaced Shorts on every target (YouTube, TikTok, Facebook). Never put two of today's Shorts on the same topic.
+- If time or a step fails, publish what is ready; never block the first Short. One combined Roman Urdu message at the end.
