@@ -11,7 +11,7 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 - Skip a job if its topic was already posted (check Uplika list_channel_posts for this channel: titles/descriptions mentioning the topic), if it is not a REAL well-documented case/fact, or if it is off-niche for the spec. Verify with one web search.
 - Use the first good one: images = renders/<id>/NN.jpg (896x1600 SDXL; 00–15 = YouTube-cut shots, 16+ = extra shots for the long cut). Look at ONE tiled contact sheet of them, then WRITE the YouTube and long-cut scripts yourself (spec's viral rules, verified facts) to fit those shots; you may reorder or drop shots that don't fit. Upscale shots with Real-ESRGAN x2 (spandrel, ai-forever/Real-ESRGAN RealESRGAN_x2.pth) → lanczos to 1440x2560 + light unsharp mask. Do NOT generate images locally.
 
-## 3. Fallback (no usable job)
+## 3. Fallback (no usable job) — LAST RESORT, quality is much lower; say so in the final message
 - Pick your own new topic and make the video fully locally as the spec says (local SD "SimianLuo/LCM_Dreamshaper_v7", CPU float32, 768x1344, 8 steps, guidance 8, safety_checker=None, Real-ESRGAN x2 → 1440x2560).
 
 ## 5. Build and publish
@@ -35,3 +35,8 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 - Length: YouTube cut 22–35 s (ignore the old A/B 50–60 s option); TikTok/Facebook cut 45–65 s with the same hook. End on a cliffhanger/question that loops into the first line.
 - Topic choice: prefer the most jaw-dropping, emotional or "wait, what?" angle; use the one search_youtube_videos call to see which similar Shorts got the most views and steal the ANGLE (never the content).
 - Before uploading, watch ONE tiled sheet of frames from the first 3 seconds: if the hook frame is not instantly striking, fix it.
+
+## 8. QUALITY FIRST (the user: "better 1 a day, but it must look HD and be worth watching")
+- One Short per channel per day. Spend the effort on it: check every shot in the contact sheet, drop any blurry, deformed, off-topic or repeated image; reorder for the strongest story.
+- Final frames must look sharp at full size: upscale with Real-ESRGAN, never stretch a small image; check ONE full-size frame at 1440x2560 before upload.
+- Script: research properly (2 web searches), one surprising verified fact per 5 s, no filler words, no generic lines; read it aloud mentally — if it is boring, rewrite it.

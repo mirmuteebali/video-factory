@@ -32,7 +32,7 @@ for jp in glob.glob(f"{W}/jobs/*.json"):
         os.remove(jp); shutil.rmtree(f"{W}/renders/{jid}", ignore_errors=True)
 
 # ---------- plan new jobs with a small free LLM ----------
-PER_DAY = {"cosmic": 3, "levelup": 3, "infinite": 3, "coldcase": 3}
+PER_DAY = {"cosmic": 1, "levelup": 1, "infinite": 1, "coldcase": 1}
 def jobs_of(ch): return sorted(glob.glob(f"{W}/jobs/{ch}-*.json"))
 need = {}
 for ch, n in PER_DAY.items():
@@ -81,7 +81,7 @@ SHOT 2: <prompt>
             topic = t.group(1).strip(); used.append(topic)
             jid = f"{ch}-{datetime.datetime.utcnow():%Y%m%d-%H%M}-{n}"
             json.dump({"channel": ch, "topic": topic, "youtube_prompts": shots[:16], "long_extra_prompts": shots[16:26],
-                       "prompts": shots[:22], "width": 896, "height": 1600, "steps": 30},
+                       "prompts": shots[:26], "width": 896, "height": 1600, "steps": 40},
                       open(f"{W}/jobs/{jid}.json", "w"), indent=1)
             print("planned", jid, topic); push(f"plan {jid}")
     del lm; import gc; gc.collect(); torch.cuda.empty_cache()
@@ -123,13 +123,13 @@ if pending:
         out = f"{W}/renders/{jid}"; os.makedirs(out, exist_ok=True)
         w, h = job.get("width", 896), job.get("height", 1600)
         w, h = max(w, 896), max(h, 1600)
-        steps = job.get("steps", 30)
+        steps = max(job.get("steps", 40), 40)
         neg = job.get("negative", "blurry, lowres, jpeg artifacts, deformed, watermark, text, signature")
         n_best = len(job.get("youtube_prompts", [])) or len(job["prompts"])
         for i, p in enumerate(job["prompts"]):
             f = f"{out}/{i:02d}.jpg"
             if os.path.exists(f): continue
-            tries = 1
+            tries = 2
             best, best_s = None, -1e9
             for t in range(tries):
                 g = torch.Generator("cuda").manual_seed(1000 * i + t + 7)
