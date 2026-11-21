@@ -11,7 +11,12 @@ W = "/kaggle/working/vf"
 
 def sh(c): subprocess.run(c, shell=True, check=True)
 
-sh("pip -q install -U diffusers transformers accelerate safetensors")
+# Keep Kaggle's own CUDA torch: never let pip replace it (a CPU torch caused "Torch not compiled with CUDA").
+sh("pip freeze | grep -iE '^(torch|torchvision|torchaudio)==' > /tmp/keep.txt || true")
+sh("pip -q install -U -c /tmp/keep.txt diffusers transformers accelerate safetensors")
+if not torch.cuda.is_available():
+    raise SystemExit("NO GPU in this run: set Accelerator = GPU T4 x2 in the notebook settings and save a new version.")
+print("GPU:", torch.cuda.get_device_name(0))
 if not os.path.exists(W):
     sh(f"git clone --depth 1 https://x-access-token:{TOKEN}@github.com/{REPO} {W}")
 else:
@@ -45,7 +50,7 @@ if any(need.values()):
     LM = "Qwen/Qwen2.5-7B-Instruct"
     try:
         from transformers import BitsAndBytesConfig
-        sh("pip -q install -U bitsandbytes")
+        sh("pip -q install -U -c /tmp/keep.txt bitsandbytes")
         tok = AutoTokenizer.from_pretrained(LM)
         lm = AutoModelForCausalLM.from_pretrained(LM, device_map="cuda:0",
              quantization_config=BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16))
