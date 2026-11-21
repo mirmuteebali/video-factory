@@ -24,7 +24,7 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 
 ## 6. Batch mode (3 Shorts per run)
 - If the run prompt says SHORTS_PER_RUN=N, make N different Shorts in this ONE run (different jobs/topics), reusing installs, models and voice pipeline. Do steps 2–5 for each.
-- Publish Short 1 immediately (wait: true). For Short k (k ≥ 2) publish the same way but with scheduledAt = now + (k−1)×5 hours (ISO 8601 with offset), so the day gets ~3 evenly spaced Shorts on every target (YouTube, TikTok, Facebook). Never put two of today's Shorts on the same topic.
+- Publish Short 1 immediately (wait: true). For Short k (k ≥ 2) publish the same way but with scheduledAt = now + (k−1)×8 hours (ISO 8601 with offset), so the day gets 3 Shorts 8 hours apart on every target (YouTube, TikTok, Facebook). Never put two of today's Shorts on the same topic.
 - If time or a step fails, publish what is ready; never block the first Short. One combined Roman Urdu message at the end.
 
 ## 7. ENERGY RULES (override anything slower in the channel spec) — the user says Shorts feel lifeless and stopped going viral
