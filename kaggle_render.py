@@ -70,9 +70,9 @@ if any(need.values()):
         for n in range(k):
             for attempt in range(3):
                 txt = ask(f"""You plan short vertical videos for this YouTube channel:\n{spec}\n
-Pick ONE new topic: a REAL, well-documented case/fact (no invented stories), fitting the niche above, different from these already planned: {used}.
+Pick ONE new topic: a REAL, well-documented case/fact (no invented stories) that has its own Wikipedia article; write the TOPIC with its exact common English name, fitting the niche above, different from these already planned: {used}.
 Then write 26 image prompts, one per shot, in story order (hook shot first), each a rich standalone Stable Diffusion XL prompt in the channel's visual style
-(subject, setting, lighting, camera, mood), no text in the image, no real people's faces, no logos.
+(subject, setting, lighting, camera, mood), no text in the image, no logos. NEVER show a person's face: no portraits or close-ups of people; show places, objects, evidence, hands, silhouettes or people from behind/far away instead.
 Reply EXACTLY in this format and nothing else:
 TOPIC: <topic in one line>
 SHOT 1: <prompt>
@@ -129,7 +129,7 @@ if pending:
         w, h = job.get("width", 896), job.get("height", 1600)
         w, h = max(w, 896), max(h, 1600)
         steps = max(job.get("steps", 40), 40)
-        neg = job.get("negative", "blurry, lowres, jpeg artifacts, deformed, watermark, text, signature")
+        neg = job.get("negative", "blurry, lowres, jpeg artifacts, deformed, watermark, text, signature, face, portrait, close-up of a person")
         n_best = len(job.get("youtube_prompts", [])) or len(job["prompts"])
         for i, p in enumerate(job["prompts"]):
             f = f"{out}/{i:02d}.jpg"

@@ -40,3 +40,4 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 - One Short per channel per day. Spend the effort on it: check every shot in the contact sheet, drop any blurry, deformed, off-topic or repeated image; reorder for the strongest story.
 - Final frames must look sharp at full size: upscale with Real-ESRGAN, never stretch a small image; check ONE full-size frame at 1440x2560 before upload.
 - Script: research properly (2 web searches), one surprising verified fact per 5 s, no filler words, no generic lines; read it aloud mentally — if it is boring, rewrite it.
+- Drop any shot that shows a clear human face (especially in Cold Case: a face can look like a real victim). Use places, objects and evidence instead.
