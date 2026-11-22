@@ -41,3 +41,6 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 - Final frames must look sharp at full size: upscale with Real-ESRGAN, never stretch a small image; check ONE full-size frame at 1440x2560 before upload.
 - Script: research properly (2 web searches), one surprising verified fact per 5 s, no filler words, no generic lines; read it aloud mentally — if it is boring, rewrite it.
 - Drop any shot that shows a clear human face (especially in Cold Case: a face can look like a real victim). Use places, objects and evidence instead.
+
+## 9. Learn from what works
+- When you call list_channel_posts for topic checks, also look at the views of this channel's last ~14 days of Shorts (YouTube and TikTok). Prefer topics and hook styles similar to the top 2 performers; avoid the angles of the weakest ones. Never repeat a topic, only the winning angle.
