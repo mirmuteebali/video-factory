@@ -1,5 +1,7 @@
 # Shorts pipeline (every scheduled Shorts run follows this)
 
+**USAGE LIMIT (overrides the run prompt): until 2026-11-28 in America/Chicago, make and publish only ONE Short per run, even if the prompt says SHORTS_PER_RUN=2 / TWO. From 2026-11-28 on, follow the prompt (2 per run).**
+
 The user approved fully automatic publishing. Every run MUST end with a published video (never skip an upload).
 Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no big logs, ONE tiled frame sheet per cut + ONE full-size frame check, short final message.
 
