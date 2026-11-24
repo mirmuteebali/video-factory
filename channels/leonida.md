@@ -1,4 +1,6 @@
 # Leonida Clips (GTA 6 Shorts)
+
+**USAGE LIMIT (overrides the run prompt): until 2026-11-28 in America/Chicago, make and publish only ONE Short per run, even if the prompt says TWO. From 2026-11-28 on, follow the prompt.**
 IDs: Uplika workspace ws_61ac39577bb4fa49; YouTube conn_539a72a23acfa68f (@leonidaclips-b9h), categoryId "20" (Gaming), privacyStatus public. YouTube only.
 
 ## Rules (hard)
