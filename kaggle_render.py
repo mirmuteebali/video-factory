@@ -37,7 +37,7 @@ for jp in glob.glob(f"{W}/jobs/*.json"):
         os.remove(jp); shutil.rmtree(f"{W}/renders/{jid}", ignore_errors=True)
 
 # ---------- plan new jobs with a small free LLM ----------
-PER_DAY = {"cosmic": 1, "levelup": 1, "infinite": 1, "coldcase": 1}
+PER_DAY = {"cosmic": 2, "levelup": 2, "infinite": 2, "coldcase": 2}
 def jobs_of(ch): return sorted(glob.glob(f"{W}/jobs/{ch}-*.json"))
 need = {}
 for ch, n in PER_DAY.items():
@@ -134,7 +134,7 @@ if pending:
         for i, p in enumerate(job["prompts"]):
             f = f"{out}/{i:02d}.jpg"
             if os.path.exists(f): continue
-            tries = 2
+            tries = 1
             best, best_s = None, -1e9
             for t in range(tries):
                 g = torch.Generator("cuda").manual_seed(1000 * i + t + 7)
