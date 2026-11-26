@@ -46,3 +46,10 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 
 ## 9. Learn from what works
 - When you call list_channel_posts for topic checks, also look at the views of this channel's last ~14 days of Shorts (YouTube and TikTok). Prefer topics and hook styles similar to the top 2 performers; avoid the angles of the weakest ones. Never repeat a topic, only the winning angle.
+
+## 10. Break the ~600-view wall (data, 26 Nov: every TikTok gets ~590–630 views, ~1% likes, 0 comments, 0 shares → TikTok stops after the first test pool)
+- TikTok and Facebook get the SAME short cut as YouTube: 20–30 s (overrides any 45–70 s long cut). Short = higher completion and rewatch, which unlocks the next pool.
+- End with a SPECIFIC, easy comment trigger, not "what do you think?": an A-or-B choice ("Aliens or genius engineers? Comment A or B"), a number guess ("Guess how old — wrong answers only"), or a "Part 2?" tease for the next video on the same theme.
+- One share trigger in the voice or caption when natural: "Send this to the friend who thinks they know history."
+- Strongest emotion first: fear, shock, "that's impossible" — lead with the single most unbelievable fact, never with background.
+- TikTok caption: 1 punchy line + the A/B question + 3–4 hashtags (one broad like #history or #space, the rest niche). No long captions.
