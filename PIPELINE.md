@@ -52,3 +52,11 @@ Weekly usage budget is tight: max 2 web searches + 1 search_youtube_videos, no b
 - One share trigger in the voice or caption when natural: "Send this to the friend who thinks they know history."
 - Strongest emotion first: fear, shock, "that's impossible" — lead with the single most unbelievable fact, never with background.
 - TikTok caption: 1 punchy line + the A/B question + 3–4 hashtags (one broad like #history or #space, the rest niche). No long captions.
+
+## 11. Interactive format for the SECOND Short of every run (built to make people comment — our missing signal)
+Short 2 of each run is a quiz/challenge, 15–25 s, answer revealed only in the last 2 s (people comment their guess before it):
+- cosmic: "Which is BIGGER?" / "How many Earths fit inside…? A) 100 B) 1,300 C) 1 million — comment your guess" (verified numbers), countdown timer on screen.
+- levelup: "Guess what this machine does" (cutaway hides the answer) or "Which one is real? A or B".
+- infinite: "REAL or FAKE?" — two artifacts/places, one real (verified), one invented and clearly revealed as fake at the end; or "Guess how old this is".
+- coldcase: no quiz about victims; instead "Which clue broke the case?" A/B/C for cases already solved (e.g. identified by DNA), respectful tone.
+On screen: big question at 0 s, options A/B/C as large cards, a 3-2-1 countdown, then the reveal. Caption: the question + "Comment A, B or C 👇". Same publish targets as normal.
