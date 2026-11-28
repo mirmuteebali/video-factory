@@ -60,3 +60,10 @@ Every Short (both of each run) is a quiz/challenge; vary the quiz type between t
 - infinite: "REAL or FAKE?" — two artifacts/places, one real (verified), one invented and clearly revealed as fake at the end; or "Guess how old this is".
 - coldcase: no quiz about victims; instead "Which clue broke the case?" A/B/C for cases already solved (e.g. identified by DNA), respectful tone.
 On screen: big question at 0 s, options A/B/C as large cards, a 3-2-1 countdown, then the reveal. Caption: the question + "Comment A, B or C 👇". Same publish targets as normal.
+
+## 12. Weekly LONG video (for watch hours) — only when the run prompt says LONG_VIDEO
+- One long video per run, YouTube only. Vertical 1440x2560, 3:30–4:30 min (MUST be over 3:10 so YouTube counts it as a normal video, not a Short; its watch time then counts toward the 3,000 watch hours).
+- Use one or two GPU-rendered jobs of this channel (renders/<id>/NN.jpg; never a topic already posted) or the fast fallback (more images: up to 30). Shot every 3–5 s, same motion/sound/caption rules as sections 5 and 7.
+- Script 550–750 words: hook in the first 5 s, 4–6 chapters with on-screen chapter titles, a mini-cliffhanger before each chapter, one A/B question for comments in the middle and at the end. Channel spec style and voice.
+- Title (no #shorts) with curiosity, 6–8 tags, description with chapter timestamps (first 0:00) and the channel's AI disclosure line; madeForKids false; category from the spec.
+- Final Roman Urdu message: title, length, YouTube link.
